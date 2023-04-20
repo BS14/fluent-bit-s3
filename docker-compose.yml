@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  web-server:
+    image: nginx
+    container_name: webserver
+    restart: always
+    ports:
+      - 8080:80
+    depends_on:
+      - fluent-bit
+  fluent-bit:
+    build:
+      context: . 
+      dockerfile: Dockerfile
+    container_name: fluent-bit
+    restart: always
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    command: fluent-bit -c /fluent-bit/etc/fluent-bit.conf  
